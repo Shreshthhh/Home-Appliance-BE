@@ -71,6 +71,7 @@ public class ApplianceService {
 
     @Transactional
     public void deleteAppliance(String applianceId) {
+        log.info(applianceId);
         applianceRepository.deleteByApplianceIds(Collections.singletonList(applianceId));
     }
 }
