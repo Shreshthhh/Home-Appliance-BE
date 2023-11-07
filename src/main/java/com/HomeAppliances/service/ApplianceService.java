@@ -29,6 +29,7 @@ public class ApplianceService {
     public ApplianceResponse createAppliance(ApplianceRequest applianceRequest) {
 
         Appliance appliance = modelMapper.map(applianceRequest, Appliance.class);
+        log.info("Successfully converted applianceRequest, appliance:{}", appliance);
         appliance.setApplianceId(CommonUtils.generateApplianceId());
         applianceRepository.save(appliance);
         return modelMapper.map(appliance, ApplianceResponse.class);
@@ -50,6 +51,7 @@ public class ApplianceService {
 
     public ApplianceResponse updateAppliance(ApplianceRequest applianceRequest, String applianceId) {
         Appliance appliance = applianceRepository.findByApplianceId(applianceId);
+        log.info("appliance before update :{}", appliance);
         if (Objects.isNull(appliance)) {
             log.error("Appliance doesn't exist with id:{}", applianceId);
             throw new NotFoundException(String.format("Appliance doesn't exist with id: %s", applianceId));
@@ -65,6 +67,7 @@ public class ApplianceService {
 
     @Transactional(rollbackFor = Exception.class)
     public void deleteAppliances(List<String> applianceIds) {
+        log.info("deleting appliances for ids: {}", applianceIds);
         applianceRepository.deleteByApplianceIds(applianceIds);
 
     }
